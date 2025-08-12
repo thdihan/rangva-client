@@ -10,8 +10,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { getUserInfo } from "@/service/auth.service";
+import { getUserInfo, removeUser } from "@/service/auth.service";
 import { adminAccessToken } from "@/constant";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -25,8 +26,14 @@ const getAvatar = (name: string) => {
 
 function User({}: Props) {
     const userInfo = getUserInfo(adminAccessToken);
+    const router = useRouter();
 
     console.log("[LOG] Header.tsx : adminAccessToken", userInfo);
+
+    const handleLogout = () => {
+        removeUser(adminAccessToken);
+        router.push("/admin/login");
+    };
 
     return (
         <DropdownMenu>
@@ -48,7 +55,9 @@ function User({}: Props) {
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator /> */}
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                    Logout
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );

@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
     Sidebar,
@@ -38,6 +38,8 @@ import {
     CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
+import { removeUser } from "@/service/auth.service";
+import { adminAccessToken } from "@/constant";
 
 const menuItems = [
     {
@@ -121,6 +123,12 @@ const menuItems = [
 
 export function AppSidebar() {
     const pathname = usePathname();
+    const router = useRouter();
+
+    const handleLogout = () => {
+        removeUser(adminAccessToken);
+        router.push("/admin/login");
+    };
 
     return (
         <Sidebar collapsible="icon" className="border-r border-gray-200">
@@ -237,7 +245,10 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                     <SidebarMenuItem>
                         <SidebarMenuButton asChild>
-                            <button className="flex items-center gap-2 w-full text-left">
+                            <button
+                                onClick={handleLogout}
+                                className="flex items-center gap-2 w-full text-left"
+                            >
                                 <LogOut className="h-4 w-4" />
                                 <span>Logout</span>
                             </button>
