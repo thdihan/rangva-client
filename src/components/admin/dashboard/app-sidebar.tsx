@@ -65,7 +65,7 @@ const menuItems = [
             },
             {
                 title: "Categories",
-                url: "/categories",
+                url: "/admin/categories",
             },
         ],
     },

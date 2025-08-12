@@ -31,6 +31,13 @@ export const getUserInfo = (authKey: string) => {
     }
 };
 
+export const getAccessKey = (authKey: string) => {
+    const authToken = getFromLocalStorage(authKey);
+    if (authToken) {
+        return authToken;
+    }
+};
+
 export const isLoggedIn = (authKey: string) => {
     const authToken = getFromLocalStorage(authKey);
     if (authToken) {
