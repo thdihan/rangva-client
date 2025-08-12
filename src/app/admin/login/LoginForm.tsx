@@ -17,8 +17,13 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { userLogin } from "@/service/actions/userLogin";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { storeUserInfo } from "@/service/auth.service";
 
 export default function LoginForm() {
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -31,15 +36,28 @@ export default function LoginForm() {
         e.preventDefault();
         setIsLoading(true);
 
-        console.log(formData);
+        try {
+            console.log("[LOG] Login Form : Data Found", formData);
+            const result = await userLogin(formData);
 
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-
-        // Redirect to dashboard (in real app, handle authentication)
-        window.location.href = "/";
-
-        setIsLoading(false);
+            console.log("[LOG] Login Form : Login response", result);
+            if (result?.data?.accessToken) {
+                console.log(
+                    "[LOG] Login Form : Access Token",
+                    result?.data?.accessToken
+                );
+                toast.success(result?.message);
+                storeUserInfo({
+                    authKey: "adminAccessToken",
+                    accessToken: result?.data?.accessToken,
+                });
+                router.push("/admin");
+            }
+        } catch (err: any) {
+            console.error(err.message);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
