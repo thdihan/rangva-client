@@ -21,6 +21,7 @@ import { userLogin } from "@/service/actions/userLogin";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { storeUserInfo } from "@/service/auth.service";
+import { adminAccessToken } from "@/constant";
 
 export default function LoginForm() {
     const router = useRouter();
@@ -48,7 +49,7 @@ export default function LoginForm() {
                 );
                 toast.success(result?.message);
                 storeUserInfo({
-                    authKey: "adminAccessToken",
+                    authKey: adminAccessToken,
                     accessToken: result?.data?.accessToken,
                 });
                 router.push("/admin");

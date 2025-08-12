@@ -126,13 +126,6 @@ export function AppSidebar() {
         <Sidebar collapsible="icon" className="border-r border-gray-200">
             <SidebarHeader className="">
                 <Link href="/" className="flex items-center gap-2">
-                    {/* <Image
-                        src="/logo.png"
-                        alt="RANGVA"
-                        width={100}
-                        height={10}
-                        className=" w-auto"
-                    /> */}
                     <div className="inline-flex items-center justify-center w-8 h-8 bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl">
                         <span className="text-white font-bold text-xl">R</span>
                     </div>
