@@ -53,8 +53,14 @@ export default function LoginForm() {
                 });
                 router.push("/admin");
             }
-        } catch (err: any) {
-            console.error(err.message);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.error(err.message);
+                toast.error(err.message);
+            } else {
+                console.error("An unexpected error occurred");
+                toast.error("Login failed. Please try again.");
+            }
         } finally {
             setIsLoading(false);
         }

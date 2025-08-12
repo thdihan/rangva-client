@@ -1,3 +1,4 @@
+import { IJWTPayload } from "@/types/auth.types";
 import { decodedToken } from "@/utils/jwt";
 
 import {
@@ -5,6 +6,7 @@ import {
     removeFromLocalStorage,
     setToLocalStorage,
 } from "@/utils/local-storage";
+import { JwtPayload } from "jwt-decode";
 
 export const storeUserInfo = ({
     authKey,
@@ -21,7 +23,7 @@ export const getUserInfo = (authKey: string) => {
     const authToken = getFromLocalStorage(authKey);
     //   console.log(authToken);
     if (authToken) {
-        const decodedData: any = decodedToken(authToken);
+        const decodedData: IJWTPayload = decodedToken(authToken) as IJWTPayload;
         return {
             ...decodedData,
             role: decodedData?.role.toLowerCase(),
