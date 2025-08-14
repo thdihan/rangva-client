@@ -66,6 +66,7 @@ type Props = {
 };
 
 function CategoriesTable({ categories }: Props) {
+    console.log("Categories Table", categories);
     return (
         <Table>
             <TableHeader>
@@ -78,62 +79,63 @@ function CategoriesTable({ categories }: Props) {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {categories.map((category) => (
-                    <TableRow key={category.id}>
-                        <TableCell>
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-lg">
-                                    {/* {category.image} */}
-                                </div>
-                                <div>
-                                    <div className="font-medium">
-                                        {category.name}
+                {categories?.length > 0 &&
+                    categories.map((category) => (
+                        <TableRow key={category.id}>
+                            <TableCell>
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-lg">
+                                        {/* {category.image} */}
                                     </div>
-                                    <div className="text-sm text-gray-500">
-                                        {category.description}
+                                    <div>
+                                        <div className="font-medium">
+                                            {category.name}
+                                        </div>
+                                        <div className="text-sm text-gray-500">
+                                            {category.description}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </TableCell>
-                        <TableCell className="font-medium">
-                            {/* {category.products}  */} 3
-                        </TableCell>
-                        <TableCell>
-                            <Badge
-                                variant="outline"
-                                className={
-                                    category.isActive === true
-                                        ? "border-green-500 text-green-700 bg-green-50"
-                                        : "border-gray-500 text-gray-700 bg-gray-50"
-                                }
-                            >
-                                {category.isActive === true
-                                    ? "Active"
-                                    : "Inactive"}
-                            </Badge>
-                        </TableCell>
-                        <TableCell>
-                            {format(
-                                new Date(category.createdAt as string),
-                                "dd/MM/yyyy"
-                            )}
-                        </TableCell>
-                        <TableCell>
-                            <div className="flex items-center gap-2">
-                                <Button variant="ghost" size="sm">
-                                    <Edit className="h-4 w-4" />
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="text-red-600 hover:text-red-700"
+                            </TableCell>
+                            <TableCell className="font-medium">
+                                {/* {category.products}  */} 3
+                            </TableCell>
+                            <TableCell>
+                                <Badge
+                                    variant="outline"
+                                    className={
+                                        category.isActive === true
+                                            ? "border-green-500 text-green-700 bg-green-50"
+                                            : "border-gray-500 text-gray-700 bg-gray-50"
+                                    }
                                 >
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </TableCell>
-                    </TableRow>
-                ))}
+                                    {category.isActive === true
+                                        ? "Active"
+                                        : "Inactive"}
+                                </Badge>
+                            </TableCell>
+                            <TableCell>
+                                {format(
+                                    new Date(category.createdAt as string),
+                                    "dd/MM/yyyy"
+                                )}
+                            </TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-2">
+                                    <Button variant="ghost" size="sm">
+                                        <Edit className="h-4 w-4" />
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="text-red-600 hover:text-red-700"
+                                    >
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    ))}
             </TableBody>
         </Table>
     );

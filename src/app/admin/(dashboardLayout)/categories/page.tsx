@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, FolderOpen } from "lucide-react";
 import AddCategory from "@/components/admin/dashboard/categories/AddCategory";
 import CategoryList from "@/components/admin/dashboard/categories/CategoryList";
-import { TCategory } from "@/types/product.types";
+import { TCategory, TCategoryResponse } from "@/types/product.types";
 
 async function CategoriesPage() {
     const res = await fetch(
@@ -17,7 +17,7 @@ async function CategoriesPage() {
         }
     );
 
-    const { data: categories } = await res.json();
+    const { data: categories }: { data: TCategoryResponse } = await res.json();
     console.log("[LOG] CategoriesPage -> ", categories);
 
     return (
@@ -99,7 +99,7 @@ async function CategoriesPage() {
 
             <div className="grid gap-6 lg:grid-cols-3">
                 <div className="lg:col-span-2">
-                    <CategoryList categories={categories} />
+                    <CategoryList initialCategories={categories} />
                 </div>
 
                 {/* New Category Add  */}
