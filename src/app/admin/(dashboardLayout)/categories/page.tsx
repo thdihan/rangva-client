@@ -5,19 +5,11 @@ import { Plus, FolderOpen } from "lucide-react";
 import AddCategory from "@/components/admin/dashboard/categories/AddCategory";
 import CategoryList from "@/components/admin/dashboard/categories/CategoryList";
 import { TCategory, TCategoryResponse } from "@/types/product.types";
+import { getAllCategories } from "@/service/actions/category";
 
 async function CategoriesPage() {
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/category`,
-        {
-            next: {
-                revalidate: 30,
-            },
-            cache: "force-cache",
-        }
-    );
-
-    const { data: categories }: { data: TCategoryResponse } = await res.json();
+    const { data: categories }: { data: TCategoryResponse } =
+        await getAllCategories();
     console.log("[LOG] CategoriesPage -> ", categories);
 
     return (
@@ -39,7 +31,7 @@ async function CategoriesPage() {
                                     Total Categories
                                 </p>
                                 <p className="text-2xl font-bold">
-                                    {categories.length}
+                                    {categories.length || 0}
                                 </p>
                             </div>
                             <FolderOpen className="h-8 w-8 text-blue-600" />
@@ -55,12 +47,12 @@ async function CategoriesPage() {
                                     Active Categories
                                 </p>
                                 <p className="text-2xl font-bold">
-                                    {
+                                    {(categories.length > 0 &&
                                         categories?.filter(
                                             (cat: TCategory) =>
                                                 cat.isActive === true
-                                        ).length
-                                    }
+                                        ).length) ||
+                                        0}
                                 </p>
                             </div>
                             <div className="text-2xl">✅</div>

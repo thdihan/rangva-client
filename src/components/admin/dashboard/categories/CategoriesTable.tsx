@@ -11,62 +11,40 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 import { Edit, Trash2 } from "lucide-react";
-import { TCategoryResponse } from "@/types/product.types";
+import { TCategory, TCategoryResponse } from "@/types/product.types";
 import { format } from "date-fns";
+import { deleteCategory } from "@/service/actions/category";
+import { getAccessKey, getUserInfo } from "@/service/auth.service";
+import { adminAccessToken } from "@/constant";
+import { toast } from "sonner";
 
-// const categories = [
-//     {
-//         id: "CAT001",
-//         name: "Electronics",
-//         description: "Electronic devices and accessories",
-//         products: 156,
-//         status: "Active",
-//         created: "Jan 15, 2024",
-//         icon: "💻",
-//     },
-//     {
-//         id: "CAT002",
-//         name: "Sports & Fitness",
-//         description: "Sports equipment and fitness gear",
-//         products: 89,
-//         status: "Active",
-//         created: "Jan 20, 2024",
-//         icon: "⚽",
-//     },
-//     {
-//         id: "CAT003",
-//         name: "Home & Garden",
-//         description: "Home decor and garden supplies",
-//         products: 234,
-//         status: "Active",
-//         created: "Feb 5, 2024",
-//         icon: "🏠",
-//     },
-//     {
-//         id: "CAT004",
-//         name: "Fashion",
-//         description: "Clothing and accessories",
-//         products: 67,
-//         status: "Inactive",
-//         created: "Feb 12, 2024",
-//         icon: "👕",
-//     },
-//     {
-//         id: "CAT005",
-//         name: "Books & Media",
-//         description: "Books, movies, and digital media",
-//         products: 123,
-//         status: "Active",
-//         created: "Mar 1, 2024",
-//         icon: "📚",
-//     },
-// ];
 type Props = {
     categories: TCategoryResponse;
 };
 
 function CategoriesTable({ categories }: Props) {
+    const accessToken = getAccessKey(adminAccessToken);
     console.log("Categories Table", categories);
+
+    const handleDelete = async (category: TCategory) => {
+        try {
+            const res = await deleteCategory(
+                category.id as string,
+                accessToken as string
+            );
+
+            console.log(`[LOG] Delete Category (${category.name}): `, res);
+            toast.success(res?.message);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                console.error(err.message);
+                toast.error(err.message);
+            } else {
+                console.error("An unexpected error occurred");
+                toast.error("Category delete failed. Please try again.");
+            }
+        }
+    };
     return (
         <Table>
             <TableHeader>
@@ -126,9 +104,10 @@ function CategoriesTable({ categories }: Props) {
                                         <Edit className="h-4 w-4" />
                                     </Button>
                                     <Button
+                                        onClick={() => handleDelete(category)}
                                         variant="ghost"
                                         size="sm"
-                                        className="text-red-600 hover:text-red-700"
+                                        className="text-red-600 hover:text-red-700 cursor-pointer"
                                     >
                                         <Trash2 className="h-4 w-4" />
                                     </Button>
