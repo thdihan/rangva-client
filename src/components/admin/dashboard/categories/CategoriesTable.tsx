@@ -17,6 +17,7 @@ import { deleteCategory } from "@/service/actions/category";
 import { getAccessKey, getUserInfo } from "@/service/auth.service";
 import { adminAccessToken } from "@/constant";
 import { toast } from "sonner";
+import EditCategory from "./EditCategory";
 
 type Props = {
     categories: TCategoryResponse;
@@ -100,9 +101,13 @@ function CategoriesTable({ categories }: Props) {
                             </TableCell>
                             <TableCell>
                                 <div className="flex items-center gap-2">
-                                    <Button variant="ghost" size="sm">
+                                    {/* <Button variant="ghost" size="sm">
                                         <Edit className="h-4 w-4" />
-                                    </Button>
+                                    </Button> */}
+                                    <EditCategory
+                                        category={category}
+                                        token={accessToken as string}
+                                    />
                                     <Button
                                         onClick={() => handleDelete(category)}
                                         variant="ghost"

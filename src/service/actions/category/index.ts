@@ -57,3 +57,34 @@ export const deleteCategory = async (id: string, access: string) => {
     revalidateTag("categories");
     return deletedCategory;
 };
+
+export const updateCategory = async (
+    id: string,
+    data: TCategory,
+    token: string
+) => {
+    console.log("[LOG] updateCategory() -> Called with id", id);
+    console.log("[LOG] updateCategory() -> Called with data", data);
+    console.log("[LOG] updateCategory() -> Called with token", token);
+
+    const result = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/category/${id}`,
+        {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `${token}`,
+            },
+            body: JSON.stringify(data),
+            cache: "no-store",
+        }
+    );
+
+    if (!result.ok) {
+        throw new Error(`Failed to update category: ${result.statusText}`);
+    }
+
+    const updatedCategory = await result.json();
+    revalidateTag("categories");
+    return updatedCategory;
+};
