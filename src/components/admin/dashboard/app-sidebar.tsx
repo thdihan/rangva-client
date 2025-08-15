@@ -13,6 +13,7 @@ import {
     TrendingUp,
     LogOut,
     ChevronDown,
+    GalleryThumbnails,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -46,6 +47,11 @@ const menuItems = [
         title: "Dashboard",
         url: "/admin",
         icon: LayoutDashboard,
+    },
+    {
+        title: "Gallery",
+        url: "/admin/gallery",
+        icon: GalleryThumbnails,
     },
     {
         title: "Products",
