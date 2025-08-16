@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { formatFileSize } from "@/utils/formatFileSize";
 import { deleteImage, toggleImageStatus } from "@/service/actions/gallery";
+import { getAccessKey } from "@/service/auth.service";
+import { adminAccessToken } from "@/constant";
 
 type Props = {
     images: Gallery[];
@@ -17,8 +19,10 @@ function ImageViewer({ images, onImageUpdate, onImageDelete }: Props) {
     const handleDelete = async (id: string) => {
         try {
             // Note: You'll need to get the auth token here
-            // const token = getAuthToken(); // Implement this based on your auth system
-            // const result = await deleteImage(id, token);
+            const token = getAccessKey(adminAccessToken); // Implement this based on your auth system
+            const result = await deleteImage(id, token as string);
+
+            console.log("[LOG] Image Delete Response", result);
 
             // For now, just show success message
             toast.success("Image deleted successfully");
@@ -34,9 +38,14 @@ function ImageViewer({ images, onImageUpdate, onImageDelete }: Props) {
     const handleToggleStatus = async (id: string, currentStatus: boolean) => {
         try {
             // Note: You'll need to get the auth token here
-            // const token = getAuthToken(); // Implement this based on your auth system
-            // const result = await toggleImageStatus(id, !currentStatus, token);
+            const token = getAccessKey(adminAccessToken); // Implement this based on your auth system
+            const result = await toggleImageStatus(
+                id,
+                !currentStatus,
+                token as string
+            );
 
+            console.log("[LOG] Image Status Response", result);
             toast.success(
                 `Image ${
                     !currentStatus ? "activated" : "deactivated"
