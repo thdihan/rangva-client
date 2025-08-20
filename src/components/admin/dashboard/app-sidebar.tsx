@@ -59,7 +59,7 @@ const menuItems = [
         items: [
             {
                 title: "All Products",
-                url: "/products",
+                url: "/admin/products",
             },
             {
                 title: "Add Product",

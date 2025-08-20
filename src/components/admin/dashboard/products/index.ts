@@ -1,0 +1,10 @@
+export { default as ProductBasicInfo } from "./ProductBasicInfo";
+export { default as ProductPricing } from "./ProductPricing";
+export { default as ProductPhysicalAttributes } from "./ProductPhysicalAttributes";
+export { default as ProductCustomAttributes } from "./ProductCustomAttributes";
+export { default as ProductSpecifications } from "./ProductSpecifications";
+export { default as ProductSEO } from "./ProductSEO";
+export { default as ProductImages } from "./ProductImages";
+export { default as ProductStatus } from "./ProductStatus";
+export { default as ProductTags } from "./ProductTags";
+export { default as ProductActions } from "./ProductActions";
